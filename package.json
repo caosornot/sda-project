@@ -1,0 +1,24 @@
+{
+  "name": "sda-project",
+  "version": "1.0.0",
+  "description": "Integración de driver llp, base datos, http - Sistemas Digitales Avanzado",
+  "main": "./bin/www",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caosornot/sda-project.git"
+  },
+  "keywords": [
+    "DataBase",
+    "HTTP",
+    "Driver"
+  ],
+  "author": "Carlos Osorno",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/caosornot/sda-project/issues"
+  },
+  "homepage": "https://github.com/caosornot/sda-project#readme"
+}
