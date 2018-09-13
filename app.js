@@ -13,9 +13,8 @@ parser = port.pipe(new RawParser())
 
 var app = express();
 
-
 parser.on('data', function(data){
-  console.log(data)
+  //console.log(data)
   var result = {
     origen : data[0].toString(16),
     destino : data[1].toString(16),
