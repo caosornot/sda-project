@@ -53,6 +53,7 @@ class RawParser extends Transform {
     this.buffer = Buffer.alloc(0)
     cb()
   }
+
 }
 
 module.exports = RawParser

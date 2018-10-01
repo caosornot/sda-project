@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/caosornot/sda-project/issues"
   },
-  "homepage": "https://github.com/caosornot/sda-project#readme"
+  "homepage": "https://github.com/caosornot/sda-project#readme",
+  "dependencies": {
+    "serialport": "^7.0.2"
+  }
 }

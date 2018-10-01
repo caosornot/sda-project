@@ -1,15 +1,14 @@
 var express = require('express');
 var router = express.Router();
-
-var Arduino = require('../driver/writer')
+var Arduino = require('../driver/serial-test.js');
 
 router.get('/set/:id/:value', function(req, res, next){
   var value = parseInt(req.params.value);
   var id = parseInt(req.params.id);
   
-  if((id < 255) && (value < 256)){
-
-    Arduino.analogWrite(id, value);
+  if((id < 255) && (value <= 100)){
+    let package = [id ,0x10 , 0, value]
+    Arduino.SendData(package);
     res.status = 200;
     res.send({
       message : "The actuator " + id + " as set to value " + value
