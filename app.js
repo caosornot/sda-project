@@ -9,6 +9,7 @@ var RawParser = require('./driver/RawParser')
 var port = new SerialPort('COM9', {
   baudRate: 9600
 });
+
 parser = port.pipe(new Protocol())
 
 var app = express();

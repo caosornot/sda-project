@@ -6,11 +6,11 @@ const Buffer = require('safe-buffer').Buffer
 const Transform = require('stream').Transform
 
 class RawParser extends Transform {
-  constructor (options) {
-    options = options || {}
-    super(options)
-    this.buffer = Buffer.alloc(0)         //Buffer.alloc(size[, fill[, encoding]] Allocates a new Buffer of size bytes.
-  }
+    constructor (options) {
+      options = options || {}
+      super(options)
+      this.buffer = Buffer.alloc(0)         //Buffer.alloc(size[, fill[, encoding]] Allocates a new Buffer of size bytes.
+    }
   _transform (chunk, encoding, cb) {        //https://nodejs.org/api/stream.html#stream_transform_transform_chunk_encoding_callback
     
     let data = Buffer.concat([this.buffer, chunk])    //"let" declara una variable en ambito local
