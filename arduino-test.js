@@ -1,4 +1,4 @@
-var ArduinoDriver = require('./driver/serial-test')
+var ArduinoDriver = require('./driver/serial_com')
 
 var ard = new ArduinoDriver({
     port: 'COM24',

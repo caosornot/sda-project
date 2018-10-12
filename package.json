@@ -22,6 +22,11 @@
   },
   "homepage": "https://github.com/caosornot/sda-project#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7",
     "serialport": "^7.0.2"
   }
 }
