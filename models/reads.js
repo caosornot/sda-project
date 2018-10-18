@@ -4,7 +4,7 @@ var readSchema = mongoose.Schema({
   timestamp : { type: Date, default: Date.now },
   cmd : {type: String},
   payload: {type: String},
-  light : { type: Number, ref: 'Lights' }
+  light : { type: Number, min: 0, max: 255 }
 });
 
 readSchema.statics.findByDevice = function(req, res, next){

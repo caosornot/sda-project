@@ -14,8 +14,6 @@ router.get('/', function (req, res) {
 // });
 
 
-router.get('/data', function (req, res) {
-	res.render('../views/data');
-});
+  
 
 module.exports = router;

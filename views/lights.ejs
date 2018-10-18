@@ -80,46 +80,45 @@
             <div class="content">
                 <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">Envio Comandos</h4>
+                                        <h4 class="card-title">Crear Dispositivos</h4>
                                     </div>
                                     <div class="card-body">
-                                            <form action="/control" method="post">  <!--REVISAR /CONTROL -->
+                                            <form action="/lights" method="post">  <!--REVISAR /CONTROL -->
                                             <div class="row">
                                                 <div class="col-md-3 pr-1">
-                                                    <div class="form-group">
-                                                        <label for="Command">Comando</label>
-                                                        <select class="form-control" id="Command" name="VCommand">
-                                                                <option>Cambiar</option>
-                                                                <option>Leer</option>
-                                                        </select>
-                                                    </div>
+                                                        <div class="form-group">
+                                                            <label for="Id">ID</label>
+                                                            <input type="number" class="form-control" placeholder="0-255" id="Id" name="DeviceId">
+                                                        </div>
                                                 </div>
-                                                <div class="col-md-5 pr-1">
+                                                <div class="col-md-3 pr-1">
                                                     <div class="form-group">
-                                                        <label for="Id">DISPOSITIVO</label>
-                                                        <select class="form-control" id="Command" name="VId">
-                                                            <% for (var i = 0; i < device.length; i++) { %>
-                                                                <option>
-                                                                <%= device[i].id_device %> 
-                                                                <%= device[i].type_device %>
-                                                                <%= device[i].zone %>    
-                                                                </option>
-                                                            <% } %>   
-                                                    </select>
+                                                        <label for="Command">Tipo Dispositivo</label>
+                                                        <select class="form-control" id="Command" name="TypeDevice">
+                                                                <option>Sensor</option>
+                                                                <option>Actuador</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 pl-1">
                                                     <div class="form-group">
-                                                        <label for="Value">Valor</label>
-                                                        <input type="number" class="form-control" placeholder="0-100" id="Value" name="VValue">
+                                                        <label for="Value">Zona</label>
+                                                        <input type="text" class="form-control" id="Zona" name="Zone">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-info btn-fill pull-right">Send</button>
-                                            
+                                            <div class="row">
+                                                <div class="col-md-9 pr-1">
+                                                    <div class="form-group">
+                                                        <label for="Value">Descripcion</label>
+                                                        <input type="text" class="form-control" id="Descripcion" name="Description">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-info btn-fill pull-right">Crear</button>
                                             <div class="clearfix"></div>                                           
                                             </form>
                                     </div>
@@ -127,45 +126,27 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">Recepción Comandos</h4>                                        
+                                        <h4 class="card-title">Dispositivos Existentes</h4>                                        
                                             <table class="table table-hover table-striped">
                                                 <tr>
-                                                <th>ID</th><th>COMMAND</th><th>VALUE</th><th>TIME</th>
+                                                <th>ID</th><th>TIPO</th><th>ZONA</th><th>DESCRIPCION</th>
                                                 </tr>
+                                                <% for (var i = 0; i < data.length; i++) { %>
                                                 <tr>
-                                                <td><%= data[data.length-1].light %></td>
-                                                <td><%= data[data.length-1].cmd %></td>
-                                                <td><%= data[data.length-1].payload %></td>
-                                                <td><%= data[data.length-1].timestamp %></td>
-                                                </tr>    
-                               
+                                                <td><%= data[i].id_device %></td>                                                
+                                                <td><%= data[i].type_device %></td>
+                                                <td><%= data[i].zone %></td>
+                                                <td><%= data[i].description %></td>
+                                                </tr>
+                                                <% } %>                                
                                             </table> 
                                     </div>                                        
                                 </div>
                             </div>
                         </div>
-                    <!-- Mini Modal -->
-                    <div class="modal fade modal-mini modal-primary" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header justify-content-center">
-                                    <div class="modal-profile">
-                                        <i class="nc-icon nc-bulb-63"></i>
-                                    </div>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <p>Comando</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-link btn-simple" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  End Modal -->
                 </div>
             </div>
             <footer class="footer">
@@ -266,6 +247,18 @@
 </div>
  -->
 
+ <script>
+        $(document).ready(function () {
+    
+          $("#btn-send").click(function () {
+            $.post("http://localhost:8080/dispence", {}, function (data) {
+    
+              
+    
+            });
+          });
+        });
+      </script>
 
 </body>
 <!--   Core JS Files   -->

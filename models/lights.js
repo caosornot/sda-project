@@ -2,10 +2,10 @@ var mongoose = require('mongoose');
 
 //Definir Esquema de Sistema de Luces
 var lightsSchema = mongoose.Schema({
-  light_id : {type : String, required: true},
-  zone : {type : String},
-  type_device : {type : String},
-  description : {type : String},
+  id_device: {type : Number,  min: 0, max: 255},
+  zone : {type : String, uppercase : true},
+  type_device : {type : String , uppercase : true},
+  description : {type : String , uppercase : true},
 });
 //Definicion de metodo estatico para buscar tipo de dispositivo por ID
 lightsSchema.statics.findDevice = function(req, res, next){

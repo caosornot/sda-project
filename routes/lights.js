@@ -10,7 +10,7 @@ var ard = new ArduinoDriver({
 })
 
 ard.on('data', function(data) {
-	console.log(data)
+	// console.log(data)
 	var result = {
 		origen : data[0],
 		destino : data[1],
@@ -35,18 +35,26 @@ ard.on('data', function(data) {
       } else {
         console.log({
           message : "New read saved",
-          payload : light_read
+        //   payload : light_read
         })
       }
     })
 	}
-	console.log(result)
+	// console.log(result)
 })
 
 router.get('/control', function (req, res) {
 	Read.find(function(err, reads){
-		console.log(reads)
-		res.render('../views/control',{data : reads});
+		Light.find(function(err, devices){	// console.log(reads)
+		res.render('../views/control',{data : reads, device : devices});
+		})
+	})
+});
+
+router.get('/lights', function (req, res) {
+	Light.find(function(err, devices){
+		console.log(devices)
+		res.render('../views/lights',{data : devices});
 	})
 });
 
@@ -58,7 +66,7 @@ router.get('/data', function (req, res) {
 });
 
 router.post('/control', function (req, res) {
-	// console.log(req.body)									//Debug
+	// console.log(req.body)
 	var params = {
 		origin : 0x01,
 		destination : 0x02,
@@ -70,64 +78,46 @@ router.post('/control', function (req, res) {
 				}
 		]
 	}
-	params.payload[0].id = parseInt(req.body.VId)
-	if (req.body.VCommand=='Set') {
+	params.payload[0].id = parseInt(req.body.VId.substr(0,3))
+	if (req.body.VCommand=='Cambiar') {
 		params.payload[0].cmd	= 0X01
 		params.payload[0].payload = params.payload[0].payload|parseInt(req.body.VValue)
 	} 
-	if (req.body.VCommand=='Get') {
+	if (req.body.VCommand=='Leer') {
 		params.payload[0].cmd	= 0X10
 		params.payload[0].payload = 0X1100
 	} 
-	// console.log(params)						// Debug
+	console.log(params)						// Debug
 	ard.send(params)
-	res.render('../views/control');
+	Read.find(function(err, reads){
+		Light.find(function(err, devices){	// console.log(reads)
+		res.render('../views/control',{data : reads, device : devices});
+		})
+	})
 });
 
 router.post('/lights', function (req, res) {
-	if(req.body.light_id && !req.light ==-1){
-	  var dev = new Light({
-		light_id : req.body.light_id,
-		zone : req.body.zone || null,
-		type_device : req.body.type_device || null,
-		description : req.body.description || null
-	  })
-	  dev.save(function(err, light){
-		if(err){
-		  res.send(err);
-		} else {
-			res.render('../views/lights');
-			// Adicionar PopUp
-		}  
-	  })
+	// console.log(req.body)
+	var dev = new Light({
+	id_device : parseInt(req.body.DeviceId),
+	zone : req.body.Zone,
+	type_device : req.body.TypeDevice,
+	description : req.body.Description
+	})
+	dev.save(function(err, light){
+	if(err){
+		res.send(err);
 	} else {
-	  res.status = 400;
-	  res.send({
-		message : "invalid requests"
-	  })
-	}
-  });
+		Light.find(function(err, devices){
+			//console.log(devices)
+			res.render('../views/lights',{data : devices});
+		})
+		// Adicionar PopUp
+	}  
+	})
 
-	router.delete('/lights', Light.findDevice, Read.findByDevice, function(req, res, next){
-		if(req.device){
-			req.device.remove(function(err, device){
-				if(err){
-					res.send(err)
-				} else {
-					Read.deleteMany({device : req.device._id}, null)
-					res.send({
-						message : "Device removed",
-						payload : device
-					})
-				}
-			})
-		} else {
-			res.status = 404
-			res.send({
-				message: "Device not found"
-			})
-		}
-	});
+});
+
 
 
 module.exports = router;
