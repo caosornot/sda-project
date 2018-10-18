@@ -11,11 +11,54 @@ var ard = new ArduinoDriver({
 
 ard.on('data', function(data) {
 	console.log(data)
-	
+	var result = {
+		origen : data[0],
+		destino : data[1],
+		longitud : data[2],
+		payload : [],
+		checksum : data[data.length - 1].toString(16)
+	}
+	for(var i = 3; i<data.length -2; i+=4){
+		result.payload[i-3]=data[i]
+		if (data[i+1].toString(16) == '20'){result.payload[i-2]='ACK';}
+		if (data[i+1].toString(16) == '21'){result.payload[i-2]='ANS';}
+		result.payload[i-1]=data[i+2].toString(10);
+		result.payload[i]=data[i+3].toString(10);
+		var new_read = new Read({
+			cmd : result.payload[i-2],
+			payload: [result.payload[i]],
+			light : result.payload[i-3]
+		})
+		new_read.save(function(err, light_read){
+      if(err){
+        console.log(err);
+      } else {
+        console.log({
+          message : "New read saved",
+          payload : light_read
+        })
+      }
+    })
+	}
+	console.log(result)
 })
 
+router.get('/control', function (req, res) {
+	Read.find(function(err, reads){
+		console.log(reads)
+		res.render('../views/control',{data : reads});
+	})
+});
+
+router.get('/data', function (req, res) {
+	Read.find(function(err, reads){
+		console.log(reads)
+		res.render('../views/data',{data : reads});
+	})
+});
+
 router.post('/control', function (req, res) {
-	//console.log(req.body)									//Debug
+	// console.log(req.body)									//Debug
 	var params = {
 		origin : 0x01,
 		destination : 0x02,
@@ -36,13 +79,13 @@ router.post('/control', function (req, res) {
 		params.payload[0].cmd	= 0X10
 		params.payload[0].payload = 0X1100
 	} 
-	//console.log(params)						// Debug
+	// console.log(params)						// Debug
 	ard.send(params)
 	res.render('../views/control');
 });
 
 router.post('/lights', function (req, res) {
-	if(req.body.light_id && !req.light && req.body.light_id.indexOf(" ")==-1){
+	if(req.body.light_id && !req.light ==-1){
 	  var dev = new Light({
 		light_id : req.body.light_id,
 		zone : req.body.zone || null,
@@ -86,32 +129,5 @@ router.post('/lights', function (req, res) {
 		}
 	});
 
-// router.get('/set/:id/:value', function(req, res, next){
-//   var value = parseInt(req.params.value);
-//   var id = parseInt(req.params.id);
-  
-//   if((id < 255) && (value <= 100)){
-//     let package = [id ,0x10 , 0, value]
-//     Arduino.SendData(package);
-//     res.status = 200;
-//     res.send({
-//       message : "The actuator " + id + " as set to value " + value
-//     })
-//   }
-//   else {
-//     res.status = 500;
-//     res.send({
-//       err : "invalid id or value!"
-//     })
-//   }
-// })
-
-// router.get('/get/:id', function(req, res, next) {
-//   var id = req.params.id
-//   var value = Arduino.pins[req.params.pin].value
-//   res.send({
-//     message : "the sensor " + id + " has a value of " + value
-//   })
-// });
 
 module.exports = router;

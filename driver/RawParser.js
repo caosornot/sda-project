@@ -20,7 +20,7 @@ class RawParser extends Transform {
       payload : null
     }
 
-    if ((parser.pos = data.indexOf(0x7E)) !== -1) {
+    if ((parser.pos = data.lastIndexOf(0x7E)) !== -1) {
       // Lectura de longitud y contenido de paquete de datos
       parser.len = data[parser.pos + 3];
       parser.payload = data.slice(parser.pos + 1,  (parser.pos + 5 + parser.len))

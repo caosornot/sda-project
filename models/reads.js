@@ -2,8 +2,9 @@ var mongoose = require('mongoose');
 
 var readSchema = mongoose.Schema({
   timestamp : { type: Date, default: Date.now },
-  value : {type: Number, min: 0, max: 100},
-  light : { type: mongoose.Schema.Types.ObjectId, ref: 'Lights' }
+  cmd : {type: String},
+  payload: {type: String},
+  light : { type: Number, ref: 'Lights' }
 });
 
 readSchema.statics.findByDevice = function(req, res, next){
@@ -20,5 +21,6 @@ readSchema.statics.findByDevice = function(req, res, next){
     next();
   }
 }
+
 
 module.exports = mongoose.model('Read', readSchema);

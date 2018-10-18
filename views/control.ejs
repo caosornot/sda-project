@@ -115,7 +115,19 @@
                             <div class="col-md-10">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">Recepción Comandos</h4>
+                                        <h4 class="card-title">Recepción Comandos</h4>                                        
+                                            <table class="table table-hover table-striped">
+                                                <tr>
+                                                <th>ID</th><th>COMMAND</th><th>VALUE</th><th>TIME</th>
+                                                </tr>
+                                                <tr>
+                                                <td><%= data[data.length-1].light %></td>
+                                                <td><%= data[data.length-1].cmd %></td>
+                                                <td><%= data[data.length-1].payload %></td>
+                                                <td><%= data[data.length-1].timestamp %></td>
+                                                </tr>    
+                               
+                                            </table> 
                                     </div>                                        
                                 </div>
                             </div>

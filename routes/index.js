@@ -9,14 +9,10 @@ router.get('/', function (req, res) {
 	res.render('../views/index');
 });
 
-router.get('/control', function (req, res) {
-	res.render('../views/control');
-});
-
-// router.post('/control', function (req, res) {
-// 	console.log(req.body['VCommand'])
+// router.get('/control', function (req, res) {
 // 	res.render('../views/control');
 // });
+
 
 router.get('/data', function (req, res) {
 	res.render('../views/data');
