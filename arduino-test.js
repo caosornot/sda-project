@@ -1,3 +1,6 @@
+// Archivo de prueba, para verificar funcionamiento del modulo serial_com
+// Envio y recepción de datos de Arduino por comunicacion serial, ligado al protocolo
+
 var ArduinoDriver = require('./driver/serial_com')
 
 var ard = new ArduinoDriver({

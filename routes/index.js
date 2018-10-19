@@ -4,7 +4,7 @@ var light = require('./lights')
 
 router.use('/', light);
 
-/* GET home page. */
+/* Renderizar pagina inicial cuando se realice GET. */
 router.get('/', function (req, res) {
 	res.render('../views/index');
 });
@@ -12,8 +12,5 @@ router.get('/', function (req, res) {
 // router.get('/control', function (req, res) {
 // 	res.render('../views/control');
 // });
-
-
-  
 
 module.exports = router;
